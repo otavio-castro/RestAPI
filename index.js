@@ -3,12 +3,24 @@ const express = require('express');
 const app = express();
 const porta = 3000;
 
+
 app.get('/', (req, res) => {
     const soma = Number(req.query.num1) + Number(req.query.num2);
 
-    res.send(`Olá Otávio! <br> Soma dos Parâmetros:${soma}`);
+    res.send(`Soma dos Parâmetros: ${soma}`);
 });
 
+app.get('/api/:id', (req, res) => {
+    const id = req.params.id;
+
+    res.send(`Hello Word! ${id}`);
+});
+
+app.listen(porta, () => {
+    console.log(`Servidor Rodando na porta ${porta}`);
+})
+
+/*
 app.post('/', (req, res) => {
     const usuario = {
         nome: 'Otavio',
@@ -17,10 +29,7 @@ app.post('/', (req, res) => {
 
     res.json(usuario);
 });
-
-app.listen(porta, () => {
-    console.log(`Servidor Rodando na porta ${porta}`);
-})
+*/
 
 /*
 SEM EXPRESS
