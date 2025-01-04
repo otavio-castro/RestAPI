@@ -3,6 +3,9 @@ const mathFunctions = require('./math');
 const app = express();
 const porta = 3000;
 
+//Path = Parametro de Rota;
+//Query = Parametro de Consulta;
+
 // 0-soma.js
 app.get('/soma', (req, res) => {
     const soma = Number(req.query.num1) + Number(req.query.num2);
