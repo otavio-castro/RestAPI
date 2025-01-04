@@ -3,15 +3,14 @@ const mathFunctions = require('./math');
 const app = express();
 const porta = 3000;
 
-//Rotas HTTP
-
+// 0-soma.js
 app.get('/soma', (req, res) => {
     const soma = Number(req.query.num1) + Number(req.query.num2);
 
     res.send(`Soma: ${soma}`);
 });
 
-
+// 01-subtrair.js
 app.get('/sub', (req, res) => {
     const num1 = Number(req.query.num1);
     const num2 = Number(req.query.num2);
@@ -21,6 +20,7 @@ app.get('/sub', (req, res) => {
     res.send(`${num1} - ${num2} = ${sub}`)
 });
 
+// 02-par.js
 app.get('/par', (req, res) => {
     const num = Number(req.query.num);
 
@@ -31,6 +31,7 @@ app.get('/par', (req, res) => {
 
 });
 
+// 04-calculadora.js
 app.get('/calculadora/:sinal', (req, res) => {
     const sinal = req.params.sinal;
     const num1 = Number(req.query.num1);
@@ -58,7 +59,7 @@ app.get('/calculadora/:sinal', (req, res) => {
     }
 })
 
-
+//Listando a porta em que o servidor vai rodar
 app.listen(porta, () => {
     console.log(`Servidor Rodando na porta ${porta}`);
 });
