@@ -1,13 +1,7 @@
 const express = require('express');
+const mathFunctions = require('./math');
 const app = express();
 const porta = 3000;
-
-//Funções Auxiliares
-
-function verificaPar(num) {
-    return (num % 2 == 0);
-}
-
 
 //Rotas HTTP
 
@@ -30,15 +24,38 @@ app.get('/sub', (req, res) => {
 app.get('/par', (req, res) => {
     const num = Number(req.query.num);
 
-    if (verificaPar(num))
-        res.send(`${num} é Par`)
+    if (mathFunctions.verificaPar(num))
+        res.send(`${num} é Par`);
     else
-        res.send(`${num} é Ímpar`)
+        res.send(`${num} é Ímpar`);
 
 });
 
 app.get('/calculadora/:sinal', (req, res) => {
+    const sinal = req.params.sinal;
+    const num1 = Number(req.query.num1);
+    const num2 = Number(req.query.num2);
 
+    switch (sinal) {
+        case "+":
+            res.send(`${num1} + ${num2} = ${mathFunctions.somaNum(num1, num2)}`);
+            break;
+
+        case "-":
+            res.send(`${num1} - ${num2} = ${mathFunctions.subtrairNum(num1, num2)}`);
+            break;
+
+        case ":":
+            res.send(`${num1} / ${num2} = ${mathFunctions.divisaoNum(num1, num2)}`);
+            break;
+
+        case "*":
+            res.send(`${num1} * ${num2} = ${mathFunctions.multiplicarNum(num1, num2)}`);
+            break;
+
+        default:
+            res.send("Operação com Sinal Inválido");
+    }
 })
 
 
