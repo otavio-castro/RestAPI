@@ -139,6 +139,46 @@ app.get('/tabuada', (req, res) => {
     res.send(texto);
 })
 
+// 09-contPrimos.js
+app.get('/contPrimos', (req, res) => {
+    const n = Number(req.query.num);
+    let primo;
+    let texto = '';
+    let j = 2;
+
+    for (let i = 1; i <= n; i++) {
+
+        do {
+            primo = mathFunctions.verificaPrimo(j);
+
+            if (primo)
+                texto += `${j} -`
+
+            j++;
+        } while (!primo);
+    }
+
+    res.send(texto);
+});
+
+// 10-ForEach
+app.get('/forEach', (req, res) => {
+    const V = [
+        Number(req.query.num1),
+        Number(req.query.num2),
+        Number(req.query.num3)
+    ];
+
+    let soma = 0;
+
+    V.forEach(item => {
+        soma += item;
+    });
+
+    res.json({ soma });
+
+});
+
 //Listando a porta em que o servidor vai rodar
 app.listen(porta, () => {
     console.log(`Servidor Rodando na porta ${porta}`);

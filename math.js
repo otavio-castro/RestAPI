@@ -40,6 +40,17 @@ function verificaMenor(V) {
     return (menor)
 }
 
+function verificaPrimo(num) {
+    let cont = 0
+
+    for (let i = 1; i <= num; i++) {
+        if (num % i == 0)
+            cont++
+    }
+
+    return (cont <= 2);
+}
+
 module.exports = {
     verificaPar,
     somaNum,
@@ -47,5 +58,6 @@ module.exports = {
     multiplicarNum,
     divisaoNum,
     verificaMaior,
-    verificaMenor
+    verificaMenor,
+    verificaPrimo
 };
