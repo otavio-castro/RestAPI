@@ -100,8 +100,10 @@ app.post('/contPar', (req, res) => {
             contImpar++;
 
     res.json({
-        Pares: contPar,
-        Impares: contImpar
+        Result: {
+            Pares: contPar,
+            Impares: contImpar
+        }
     });
 })
 
@@ -126,18 +128,15 @@ app.post('/menorIdade', (req, res) => {
 });
 
 // 08-tabuada.js
-app.get('/tabuada', (req, res) => {
-    const n = Number(req.query.num);
-    const V = [];
-    let texto = ''
+app.post('/tabuada', (req, res) => {
+    const { num } = req.body;
 
-    for (let i = 0; i <= 10; i++) {
-        V[i] = mathFunctions.multiplicarNum(n, i);
+    const result = new Array(11);
 
-        texto += `${n} x ${i} = ${V[i]} <br>`;
-    }
+    for (let i = 0; i <= 10; i++)
+        result[i] = mathFunctions.multiplicarNum(num, i);
 
-    res.send(texto);
+    res.json({ result });
 })
 
 // 09-Primos.js
