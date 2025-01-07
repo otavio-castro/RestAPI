@@ -75,7 +75,6 @@ app.post('/notas', (req, res) => {
         soma += item;
     })
 
-
     const media = soma / notas.length;
 
     if (media < 6)
@@ -89,49 +88,40 @@ app.post('/notas', (req, res) => {
 });
 
 // 06-contPares.js
-app.get('/contPar', (req, res) => {
-    const n = Number(req.query.num);
+app.post('/contPar', (req, res) => {
+    const { num } = req.body;
     let contPar = 0;
     let contImpar = 0;
 
-    for (let i = 1; i <= n; i++)
+    for (let i = 1; i <= num; i++)
         if (mathFunctions.verificaPar(i))
             contPar++;
         else
             contImpar++;
 
-    res.send(`Quantidade de Pares: ${contPar} <br> Quantidade de Impares: ${contImpar}`);
-
+    res.json({
+        Pares: contPar,
+        Impares: contImpar
+    });
 })
 
 // 07-maiorIdade (Verifica a maior idade)
-app.get('/maiorIdade', (req, res) => {
-    const V = [
-        Number(req.query.idade1),
-        Number(req.query.idade2),
-        Number(req.query.idade3),
-        Number(req.query.idade4),
-        Number(req.query.idade5)
-    ];
+app.post('/maiorIdade', (req, res) => {
+    const { idades } = req.body
 
-    const maior = mathFunctions.verificaMaior(V);
+    const result = mathFunctions.verificaMaior(idades);
 
-    res.send(`Maior Idade: ${maior}`);
+    res.json({ result });
 
 });
+
 // (Verifica a menor idade)
-app.get('/menorIdade', (req, res) => {
-    const V = [
-        Number(req.query.idade1),
-        Number(req.query.idade2),
-        Number(req.query.idade3),
-        Number(req.query.idade4),
-        Number(req.query.idade5)
-    ];
+app.post('/menorIdade', (req, res) => {
+    const { idades } = req.body
 
-    const menor = mathFunctions.verificaMenor(V);
+    const result = mathFunctions.verificaMenor(idades);
 
-    res.send(`Menor Idade: ${menor}`);
+    res.send({ result });
 
 });
 
@@ -150,43 +140,40 @@ app.get('/tabuada', (req, res) => {
     res.send(texto);
 })
 
-// 09-contPrimos.js
-app.get('/contPrimos', (req, res) => {
-    const n = Number(req.query.num);
+// 09-Primos.js
+app.post('/primos', (req, res) => {
+    const { num } = req.body;
     let primo;
-    let texto = '';
+    const result = new Array(num);
     let j = 2;
 
-    for (let i = 1; i <= n; i++) {
+    for (let i = 0; i < result.length; i++) {
 
         do {
             primo = mathFunctions.verificaPrimo(j);
 
             if (primo)
-                texto += `${j} -`
+                result[i] = j
 
             j++;
         } while (!primo);
     }
 
-    res.send(texto);
+    res.json({ result });
 });
 
 // 10-ForEach
-app.get('/forEach', (req, res) => {
-    const V = [
-        Number(req.query.num1),
-        Number(req.query.num2),
-        Number(req.query.num3)
-    ];
+app.post('/forEach', (req, res) => {
+
+    const { numeros } = req.body
 
     let soma = 0;
 
-    V.forEach(item => {
+    numeros.forEach(item => {
         soma += item;
     });
 
-    res.json({ soma });
+    res.json({ result: soma });
 
 });
 
