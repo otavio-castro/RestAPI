@@ -1,91 +1,36 @@
+//Path = Parametro de Rota (req.params);
+//Query = Parametro de Consulta;
+
 const express = require('express');
 const mathFunctions = require('./math');
+const api = require('./operacoes');
 
 const app = express();
 const porta = 3000;
 
 app.use(express.json());
 
-//Path = Parametro de Rota;
-//Query = Parametro de Consulta;
-
-// 0-soma.js
-app.post('/somar', (req, res) => {
-    const { num1, num2 } = req.body;
-    const result = mathFunctions.somaNum(num1, num2);
-
-    res.send({ result });
-});
-
-// 01-subtrair.js
-app.post('/sub', (req, res) => {
-    const { num1, num2 } = req.body;
-    const result = mathFunctions.subtrairNum(num1, num2);
+// 0-Calculos Basicos
+app.post('/somar', (api.apiSomar));
+app.get('/somar', (req, res) => {
+    const { num1, num2 } = req.query
+    const result = Number(num1) + Number(num2);
 
     res.json({ result });
+})
 
-});
+app.post('/sub', (api.apiSub));
+app.post('/multi', (api.apiMulti));
+app.post('/div', (api.apiDiv));
 
 // 02-par.js
-app.post('/par', (req, res) => {
-    const { num } = req.body;
-    const result = mathFunctions.verificaPar(num);
-
-    res.json(result);
-});
-
+app.post('/par', (api.apiPar));
 
 // 04-calculadora.js
-app.post('/calculadora/:sinal', (req, res) => {
-    const { num1, num2 } = req.body;
-    const sinal = req.params.sinal;
-    let result;
-
-    switch (sinal) {
-        case "+":
-            result = mathFunctions.somaNum(num1, num2);
-            break;
-
-        case "-":
-            result = mathFunctions.subtrairNum(num1, num2);
-            break;
-
-        case ":":
-            result = mathFunctions.divisaoNum(num1, num2);
-            break;
-
-        case "*":
-            result = mathFunctions.multiplicarNum(num1, num2);
-            break;
-
-        default:
-            result = 'invalid';
-    }
-
-    res.json({ result });
-});
+app.post('/calculadora/:sinal', (api.apiCalculadora));
 
 // 05-notas.js
-app.post('/notas', (req, res) => {
-    const notas = req.body.notas;
-    let soma = 0
-    let result;
-
-    notas.forEach((item) => {
-        soma += item;
-    })
-
-    const media = soma / notas.length;
-
-    if (media < 6)
-        result = "Abaixo da Média";
-    else if (media === 6)
-        result = "Na média";
-    else
-        result = "Acima da Média";
-
-    res.json({ result });
-});
+app.post('/notas', (api.apiNotas))
 
 // 06-contPares.js
 app.post('/contPar', (req, res) => {

@@ -48,7 +48,7 @@ function verificaPrimo(num) {
             cont++
     }
 
-    return (cont <= 2);
+    return ((cont <= 2) && (num != 1));
 }
 
 module.exports = {
