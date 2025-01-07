@@ -20,4 +20,32 @@ function divisaoNum(num1, num2) {
     return (num1 / num2);
 }
 
-module.exports = { verificaPar, somaNum, subtrairNum, multiplicarNum, divisaoNum };
+function verificaMaior(V) {
+    let maior = V[0];
+
+    for (let i = 1; i < V.length; i++)
+        if (V[i] > maior)
+            maior = V[i];
+
+    return (maior)
+}
+
+function verificaMenor(V) {
+    let menor = V[0];
+
+    for (let i = 1; i < V.length; i++)
+        if (V[i] < menor)
+            menor = V[i];
+
+    return (menor)
+}
+
+module.exports = {
+    verificaPar,
+    somaNum,
+    subtrairNum,
+    multiplicarNum,
+    divisaoNum,
+    verificaMaior,
+    verificaMenor
+};

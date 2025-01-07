@@ -34,6 +34,7 @@ app.get('/par', (req, res) => {
 
 });
 
+
 // 04-calculadora.js
 app.get('/calculadora/:sinal', (req, res) => {
     const sinal = req.params.sinal;
@@ -60,6 +61,82 @@ app.get('/calculadora/:sinal', (req, res) => {
         default:
             res.send("Operação com Sinal Inválido");
     }
+});
+
+// 05-notas.js
+app.get('/notas', (req, res) => {
+    const soma = Number(req.query.nota1) + Number(req.query.nota2) + Number(req.query.nota3);
+
+    const media = soma / 3;
+
+    if (media < 6)
+        res.send("Abaixo da Média");
+    else if (media === 6)
+        res.send("Na média");
+    else
+        res.send("Acima da Média");
+});
+
+// 06-contPares.js
+app.get('/contPar', (req, res) => {
+    const n = Number(req.query.num);
+    let contPar = 0;
+    let contImpar = 0;
+
+    for (let i = 1; i <= n; i++)
+        if (mathFunctions.verificaPar(i))
+            contPar++;
+        else
+            contImpar++;
+
+    res.send(`Quantidade de Pares: ${contPar} <br> Quantidade de Impares: ${contImpar}`);
+
+})
+
+// 07-maiorIdade (Verifica a maior idade)
+app.get('/maiorIdade', (req, res) => {
+    const V = [
+        Number(req.query.idade1),
+        Number(req.query.idade2),
+        Number(req.query.idade3),
+        Number(req.query.idade4),
+        Number(req.query.idade5)
+    ];
+
+    const maior = mathFunctions.verificaMaior(V);
+
+    res.send(`Maior Idade: ${maior}`);
+
+});
+// (Verifica a menor idade)
+app.get('/menorIdade', (req, res) => {
+    const V = [
+        Number(req.query.idade1),
+        Number(req.query.idade2),
+        Number(req.query.idade3),
+        Number(req.query.idade4),
+        Number(req.query.idade5)
+    ];
+
+    const menor = mathFunctions.verificaMenor(V);
+
+    res.send(`Menor Idade: ${menor}`);
+
+});
+
+// 08-tabuada.js
+app.get('/tabuada', (req, res) => {
+    const n = Number(req.query.num);
+    const V = [];
+    let texto = ''
+
+    for (let i = 0; i <= 10; i++) {
+        V[i] = mathFunctions.multiplicarNum(n, i);
+
+        texto += `${n} x ${i} = ${V[i]} <br>`;
+    }
+
+    res.send(texto);
 })
 
 //Listando a porta em que o servidor vai rodar
