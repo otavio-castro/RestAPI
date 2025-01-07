@@ -1,80 +1,91 @@
 const express = require('express');
 const mathFunctions = require('./math');
+
 const app = express();
 const porta = 3000;
+
+app.use(express.json());
 
 //Path = Parametro de Rota;
 //Query = Parametro de Consulta;
 
 // 0-soma.js
-app.get('/soma', (req, res) => {
-    const soma = Number(req.query.num1) + Number(req.query.num2);
+app.post('/somar', (req, res) => {
+    const { num1, num2 } = req.body;
+    const result = mathFunctions.somaNum(num1, num2);
 
-    res.send(`Soma: ${soma}`);
+    res.send({ result });
 });
 
 // 01-subtrair.js
-app.get('/sub', (req, res) => {
-    const num1 = Number(req.query.num1);
-    const num2 = Number(req.query.num2);
+app.post('/sub', (req, res) => {
+    const { num1, num2 } = req.body;
+    const result = mathFunctions.subtrairNum(num1, num2);
 
-    const sub = num1 - num2;
+    res.json({ result });
 
-    res.send(`${num1} - ${num2} = ${sub}`)
 });
 
 // 02-par.js
-app.get('/par', (req, res) => {
-    const num = Number(req.query.num);
+app.post('/par', (req, res) => {
+    const { num } = req.body;
+    const result = mathFunctions.verificaPar(num);
 
-    if (mathFunctions.verificaPar(num))
-        res.send(`${num} é Par`);
-    else
-        res.send(`${num} é Ímpar`);
-
+    res.json(result);
 });
 
 
 // 04-calculadora.js
-app.get('/calculadora/:sinal', (req, res) => {
+app.post('/calculadora/:sinal', (req, res) => {
+    const { num1, num2 } = req.body;
     const sinal = req.params.sinal;
-    const num1 = Number(req.query.num1);
-    const num2 = Number(req.query.num2);
+    let result;
 
     switch (sinal) {
         case "+":
-            res.send(`${num1} + ${num2} = ${mathFunctions.somaNum(num1, num2)}`);
+            result = mathFunctions.somaNum(num1, num2);
             break;
 
         case "-":
-            res.send(`${num1} - ${num2} = ${mathFunctions.subtrairNum(num1, num2)}`);
+            result = mathFunctions.subtrairNum(num1, num2);
             break;
 
         case ":":
-            res.send(`${num1} / ${num2} = ${mathFunctions.divisaoNum(num1, num2)}`);
+            result = mathFunctions.divisaoNum(num1, num2);
             break;
 
         case "*":
-            res.send(`${num1} * ${num2} = ${mathFunctions.multiplicarNum(num1, num2)}`);
+            result = mathFunctions.multiplicarNum(num1, num2);
             break;
 
         default:
-            res.send("Operação com Sinal Inválido");
+            result = 'invalid';
     }
+
+    res.json({ result });
 });
 
 // 05-notas.js
-app.get('/notas', (req, res) => {
-    const soma = Number(req.query.nota1) + Number(req.query.nota2) + Number(req.query.nota3);
+app.post('/notas', (req, res) => {
+    const notas = req.body.notas;
+    let soma = 0
+    let result;
 
-    const media = soma / 3;
+    notas.forEach((item) => {
+        soma += item;
+    })
+
+
+    const media = soma / notas.length;
 
     if (media < 6)
-        res.send("Abaixo da Média");
+        result = "Abaixo da Média";
     else if (media === 6)
-        res.send("Na média");
+        result = "Na média";
     else
-        res.send("Acima da Média");
+        result = "Acima da Média";
+
+    res.json({ result });
 });
 
 // 06-contPares.js
