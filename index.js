@@ -2,12 +2,14 @@ const express = require('express');
 
 const app = express();
 const porta = 3000;
+app.use(express.json());
 
+app.post('/somar', (req, res) => {
+    const { num1, num2 } = req.body;
 
-app.get('/', (req, res) => {
-    const soma = Number(req.query.num1) + Number(req.query.num2);
-
-    res.send(`Soma dos Parâmetros: ${soma}`);
+    res.status(201).json({
+        result: num1 + num2
+    });
 });
 
 app.get('/api/:id', (req, res) => {
