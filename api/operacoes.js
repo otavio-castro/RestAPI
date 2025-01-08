@@ -1,4 +1,4 @@
-const mathFunctions = require('./math');
+const mathFunctions = require('../services/operacoes');
 
 const apiSomar = (req, res) => {
     const { num1, num2 } = req.body;

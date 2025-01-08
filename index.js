@@ -26,7 +26,7 @@ app.post('/div', (api.apiDiv));
 // 02-par.js
 app.post('/par', (api.apiPar));
 
-// 04-calculadora.js
+// 04-calculadora.js '/:sinal é um path'
 app.post('/calculadora/:sinal', (api.apiCalculadora));
 
 // 05-notas.js
