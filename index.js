@@ -2,8 +2,8 @@
 //Query = Parametro de Consulta;
 
 const express = require('express');
-const mathFunctions = require('./math');
-const api = require('./operacoes');
+const mathFunctions = require('./services/operacoes');
+const api = require('./api/operacoes');
 
 const app = express();
 const porta = 3000;
