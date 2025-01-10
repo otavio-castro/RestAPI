@@ -37,96 +37,25 @@ app.post('/par', (api.apiPar));
 app.post('/calculadora/:sinal', (api.apiCalculadora));
 
 // 05-notas.js
-app.post('/notas', (api.apiNotas))
+app.post('/notas', (api.apiNotas));
 
 // 06-contPares.js
-app.post('/contPar', (req, res) => {
-    const { num } = req.body;
-    let contPar = 0;
-    let contImpar = 0;
-
-    for (let i = 1; i <= num; i++)
-        if (mathFunctions.verificaPar(i))
-            contPar++;
-        else
-            contImpar++;
-
-    res.json({
-        Result: {
-            Pares: contPar,
-            Impares: contImpar
-        }
-    });
-})
+app.post('/contPar', (api.apiContPar));
 
 // 07-maiorIdade (Verifica a maior idade)
-app.post('/maiorIdade', (req, res) => {
-    const { idades } = req.body
-
-    const result = mathFunctions.verificaMaior(idades);
-
-    res.json({ result });
-
-});
+app.post('/maiorIdade', (api.apiMaiorIdade));
 
 // (Verifica a menor idade)
-app.post('/menorIdade', (req, res) => {
-    const { idades } = req.body
-
-    const result = mathFunctions.verificaMenor(idades);
-
-    res.send({ result });
-
-});
+app.post('/menorIdade', (api.apiMenorIdade));
 
 // 08-tabuada.js
-app.post('/tabuada', (req, res) => {
-    const { num } = req.body;
-
-    const result = new Array(11);
-
-    for (let i = 0; i <= 10; i++)
-        result[i] = mathFunctions.multiplicarNum(num, i);
-
-    res.json({ result });
-})
+app.post('/tabuada', (api.apiTabuada));
 
 // 09-Primos.js
-app.post('/primos', (req, res) => {
-    const { num } = req.body;
-    let primo;
-    const result = new Array(num);
-    let j = 2;
-
-    for (let i = 0; i < result.length; i++) {
-
-        do {
-            primo = mathFunctions.verificaPrimo(j);
-
-            if (primo)
-                result[i] = j
-
-            j++;
-        } while (!primo);
-    }
-
-    res.json({ result });
-});
+app.post('/primos', (api.apiPrimos));
 
 // 10-ForEach
-app.post('/forEach', (req, res) => {
-
-    const { numeros } = req.body
-
-    let soma = 0;
-
-    numeros.forEach(item => {
-        soma += item;
-    });
-
-    res.json({ result: soma });
-
-});
+app.post('/forEach', (api.apiForEach));
 
 //Listando a porta em que o servidor vai rodar
 app.listen(porta, () => {
