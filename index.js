@@ -1,5 +1,5 @@
 //Path = Parametro de Rota (req.params);
-//Query = Parametro de Consulta;
+//Query = Parametro de Consulta (req.query);
 
 const express = require('express');
 const mathFunctions = require('./services/operacoes');
@@ -12,12 +12,19 @@ app.use(express.json());
 
 // 0-Calculos Basicos
 app.post('/somar', (api.apiSomar));
+app.post('/somaPost', (req, res) => {
+    const { num1, num2 } = req.body.numbers;
+    const result = mathFunctions.somaNum(num1, num2);
+
+    res.json({ result });
+})
+// Teste em GET
 app.get('/somar', (req, res) => {
     const { num1, num2 } = req.query
     const result = Number(num1) + Number(num2);
 
     res.json({ result });
-})
+});
 
 app.post('/sub', (api.apiSub));
 app.post('/multi', (api.apiMulti));
