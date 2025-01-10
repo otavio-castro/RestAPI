@@ -60,4 +60,10 @@ app.post('/forEach', (api.apiForEach));
 //Listando a porta em que o servidor vai rodar
 app.listen(porta, () => {
     console.log(`Servidor Rodando na porta ${porta}`);
-});
+})
+
+/*
+app.listen(porta, function () {
+    console.log(`Sem o arrow function`)
+})
+*/

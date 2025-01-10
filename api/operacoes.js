@@ -105,7 +105,7 @@ const apiContPar = (req, res) => {
 }
 
 const apiMaiorIdade = (req, res) => {
-    const [idades] = req.body;
+    const { idades } = req.body;
 
     const result = mathFunctions.verificaMaior(idades);
 
