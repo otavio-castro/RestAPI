@@ -1,7 +1,7 @@
 const mathFunctions = require('../services/operacoes');
 
 const apiSomar = (req, res) => {
-    const { num1, num2 } = req.body;
+    const { num1, num2 } = req.body.numbers;
     const result = mathFunctions.somaNum(num1, num2);
 
     res.send({ result });
