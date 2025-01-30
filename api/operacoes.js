@@ -128,7 +128,7 @@ const apiTabuada = (req, res) => {
     for (let i = 0; i <= 10; i++)
         result[i] = mathFunctions.multiplicarNum(num, i);
 
-    res.json({ result });
+    res.status(200).json({ result });
 };
 
 const apiPrimos = (req, res) => {
