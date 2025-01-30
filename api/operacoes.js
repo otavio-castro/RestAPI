@@ -1,10 +1,15 @@
 const mathFunctions = require('../services/operacoes');
 
 const apiSomar = (req, res) => {
-    const { num1, num2 } = req.body.numbers;
-    const result = mathFunctions.somaNum(num1, num2);
+    try {
 
-    res.send({ result });
+        const { num1, num2 } = req.body.numbers;
+        const result = mathFunctions.somaNum(num1, num2);
+
+        res.status(200).json({ result });
+    } catch (error) {
+        res.status(500).json({ msg: error.message })
+    }
 }
 
 const apiSub = (req, res) => {
@@ -15,153 +20,225 @@ const apiSub = (req, res) => {
 }
 
 const apiMulti = (req, res) => {
-    const { num1, num2 } = req.body.numeros;
-    const result = mathFunctions.multiplicarNum(num1, num2);
+    try {
+        const { num1, num2 } = req.body.numeros;
+        const result = mathFunctions.multiplicarNum(num1, num2);
 
-    res.json({ result });
+        res.status(200).json({ result });
+    } catch (error) {
+        res.status(500).json({ msg: error.message })
+    }
 }
 
 const apiDiv = (req, res) => {
-    const { num1, num2 } = req.body.numeros;
-    const result = mathFunctions.divisaoNum(num1, num2);
+    try {
+        const { num1, num2 } = req.body.numeros;
+        const result = mathFunctions.divisaoNum(num1, num2);
 
-    res.json({ result });
+        res.status(200).json({ result });
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
 }
 
 const apiPar = (req, res) => {
-    const { num } = req.body;
-    const result = mathFunctions.verificaPar(num);
+    try {
+        const { num } = req.body;
+        const result = mathFunctions.verificaPar(num);
 
-    res.json(result);
+        res.status(200).json({ result });
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
 };
 
 const apiCalculadora = (req, res) => {
-    const { num1, num2 } = req.body;
-    const sinal = req.params.sinal;
-    let result;
 
-    switch (sinal) {
-        case "+":
-            result = mathFunctions.somaNum(num1, num2);
-            break;
+    try {
+        const { num1, num2 } = req.body;
+        const sinal = req.params.sinal;
+        const operadores = "+-:*"
+        let result;
 
-        case "-":
-            result = mathFunctions.subtrairNum(num1, num2);
-            break;
+        //".includes" verifica se um determinado valor está presente dentro de uma string ou array
 
-        case ":":
-            result = mathFunctions.divisaoNum(num1, num2);
-            break;
+        if (!operadores.includes(sinal))
+            throw new Error("Insira um operador válido (+, -, :, *)")
 
-        case "*":
-            result = mathFunctions.multiplicarNum(num1, num2);
-            break;
+        switch (sinal) {
+            case "+":
+                result = mathFunctions.somaNum(num1, num2);
+                break;
 
-        default:
-            result = 'invalid';
+            case "-":
+                result = mathFunctions.subtrairNum(num1, num2);
+                break;
+
+            case ":":
+                result = mathFunctions.divisaoNum(num1, num2);
+                break;
+
+            case "*":
+                result = mathFunctions.multiplicarNum(num1, num2);
+                break;
+
+            default:
+                result = 'invalid';
+        }
+
+        res.status(200).json({ result });
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
     }
-
-    res.json({ result });
 };
 
 const apiNotas = (req, res) => {
-    const notas = req.body.notas;
-    let soma = 0
-    let result;
+    try {
+        const notas = req.body.notas;
+        if (notas.length == 0)
+            throw new Error("Insira pelo menos uma nota");
 
-    notas.forEach((item) => {
-        soma += item;
-    })
+        let soma = 0
+        let result;
 
-    const media = soma / notas.length;
+        notas.forEach((item) => {
+            if (isNaN(item) || item < 0)
+                throw new Error("Insira apenas números válidos");
+            else if (item > 10)
+                throw new Error("As notas devem variar entre 0 a 10");
 
-    if (media < 6)
-        result = "Abaixo da Média";
-    else if (media === 6)
-        result = "Na média";
-    else
-        result = "Acima da Média";
+            soma += item;
+        })
 
-    res.json({ result });
+        const media = soma / notas.length;
+
+        if (media < 6)
+            result = "Abaixo da Média";
+        else if (media === 6)
+            result = "Na média";
+        else
+            result = "Acima da Média";
+
+        res.status(200).json({ result });
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
 };
 
 const apiContPar = (req, res) => {
-    const { num } = req.body;
-    let contPar = 0;
-    let contImpar = 0;
+    try {
+        const { num } = req.body;
+        if (isNaN(num) || num <= 0)
+            throw new Error("Insira um número válido, maior do que 0");
 
-    for (let i = 1; i <= num; i++)
-        if (mathFunctions.verificaPar(i))
-            contPar++;
-        else
-            contImpar++;
+        let contPar = 0;
+        let contImpar = 0;
 
-    res.json({
-        Result: {
-            Pares: contPar,
-            Impares: contImpar
-        }
-    });
+        for (let i = 1; i <= num; i++)
+            if (mathFunctions.verificaPar(i))
+                contPar++;
+            else
+                contImpar++;
+
+        res.status(200).json({
+            Result: {
+                Pares: contPar,
+                Impares: contImpar
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
 }
 
 const apiMaiorIdade = (req, res) => {
-    const { idades } = req.body;
+    try {
+        const { idades } = req.body;
+        if (idades.length <= 1)
+            throw new Error("Insira no mínimo duas idades");
 
-    const result = mathFunctions.verificaMaior(idades);
+        const result = mathFunctions.verificaMaior(idades);
 
-    res.json({ result });
-}
+        res.status(200).json({ result });
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
+};
 
 const apiMenorIdade = (req, res) => {
-    const { idades } = req.body;
+    try {
+        const { idades } = req.body;
+        if (idades.length <= 1)
+            throw new Error("Insira no mínimo duas idades");
 
-    const result = mathFunctions.verificaMenor(idades);
+        const result = mathFunctions.verificaMenor(idades);
 
-    res.json({ result });
+        res.json({ result });
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
 }
 
 const apiTabuada = (req, res) => {
-    const { num } = req.body;
+    try {
+        const { num } = req.body;
+        const result = new Array(11);
 
-    const result = new Array(11);
+        for (let i = 0; i <= 10; i++)
+            result[i] = mathFunctions.multiplicarNum(num, i);
 
-    for (let i = 0; i <= 10; i++)
-        result[i] = mathFunctions.multiplicarNum(num, i);
-
-    res.status(200).json({ result });
+        res.status(200).json({ result });
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
 };
 
 const apiPrimos = (req, res) => {
-    const { num } = req.body;
-    let primo;
-    const result = new Array(num);
-    let j = 2;
+    try {
+        const { num } = req.body;
+        if (isNaN(num) || num <= 0)
+            throw new Error("Insirá um número válido maior que 0 ");
 
-    for (let i = 0; i < result.length; i++) {
+        let primo;
+        const result = new Array(num);
+        let j = 2;
 
-        do {
-            primo = mathFunctions.verificaPrimo(j);
+        for (let i = 0; i < result.length; i++) {
 
-            if (primo)
-                result[i] = j
+            do {
+                primo = mathFunctions.verificaPrimo(j);
 
-            j++;
-        } while (!primo);
+                if (primo)
+                    result[i] = j
+
+                j++;
+            } while (!primo);
+        }
+
+        res.status(200).json({ result });
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
     }
-
-    res.json({ result });
 };
 
 const apiForEach = (req, res) => {
-    const { numeros } = req.body;
-    let soma = 0;
+    try {
+        const { numeros } = req.body;
+        let soma = 0;
 
-    numeros.forEach((item) => {
-        soma += item;
-    });
+        numeros.forEach((item) => {
+            if (isNaN(item))
+                throw new Error("Insirá apenas números válidos");
 
-    res.json({ result: soma })
-}
+            soma += item;
+        });
+
+        res.status(200).json({ result: soma });
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
+};
+
 
 module.exports = {
     apiSomar,
