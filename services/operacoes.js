@@ -32,6 +32,9 @@ function divisaoNum(num1, num2) {
     if (isNaN(num1) || isNaN(num2))
         throw new Error("Insira apenas números válidos");
 
+    if (num2 == 0)
+        throw new Error("Não é possível dividir por zero");
+
     return (num1 / num2);
 }
 
