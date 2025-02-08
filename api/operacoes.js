@@ -239,7 +239,6 @@ const apiForEach = (req, res) => {
     }
 };
 
-
 module.exports = {
     apiSomar,
     apiSub,

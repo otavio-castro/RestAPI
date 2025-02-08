@@ -54,16 +54,14 @@ function verificaMaior(V) {
 }
 
 function verificaMenor(V) {
+    let menor = V[0];
+
     V.forEach((idade) => {
         if (isNaN(idade) || idade < 0)
             throw new Error("Insira apenas idades válidas");
+        else if (idade < menor)
+            menor = idade;
     })
-
-    let menor = V[0];
-
-    for (let i = 1; i < V.length; i++)
-        if (V[i] < menor)
-            menor = V[i];
 
     return (menor)
 }
